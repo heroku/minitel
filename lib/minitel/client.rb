@@ -1,4 +1,4 @@
-require 'json'
+require 'multi_json'
 require 'excon'
 
 module Minitel
@@ -18,10 +18,10 @@ module Minitel
       }
 
       response = Excon.post("#{telex_url}/producer/messages",
-                   body: JSON.dump(message),
+                   body: MultiJson.dump(message),
                    expects: 201)
 
-      JSON.parse(response.body)
+      MultiJson.load(response.body)
     end
   end
 end

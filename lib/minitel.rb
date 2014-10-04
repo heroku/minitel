@@ -1,5 +1,5 @@
 Minitel = Module.new
 
-require 'version'
-require 'client'
+require 'minitel/version'
+require 'minitel/client'
 
