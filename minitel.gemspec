@@ -1,6 +1,5 @@
 # -*- encoding: utf-8 -*-
-$:.push File.expand_path("../lib", __FILE__)
-require 'minitel'
+require File.expand_path("../lib/minitel/version", __FILE__)
 
 Gem::Specification.new do |gem|
   gem.name          = "minitel"
@@ -15,7 +14,7 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
   gem.version       = Minitel::VERSION
-  gem.platform    = Gem::Platform::RUBY
+  gem.platform      = Gem::Platform::RUBY
   gem.license       = "MIT"
 
   gem.add_runtime_dependency 'excon', '~> 0', ">= 0.16"
