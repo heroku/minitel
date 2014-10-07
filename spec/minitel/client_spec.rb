@@ -6,3 +6,26 @@ describe Minitel::Client, '#initialize' do
     expect{ Minitel::Client.new('https://user:pass@what.com') }.to_not raise_error
   end
 end
+
+describe Minitel::Client, '#notify_app' do
+  describe 'arguments' do
+    let(:default) { {title: 'a title', body: 'a body', app_uuid: SecureRandom.uuid} }
+    let(:client) { Minitel::Client.new('https://u:p@h.com') }
+
+    it 'works when all 3 are present' do
+      expect { client.notify_app(default) }.to_not raise_error
+    end
+
+    [:title, :body, :app_uuid].each do |key|
+      it "fails when #{key} is missing" do
+        default.delete(key)
+        expect { client.notify_app(default) }.to raise_error(ArgumentError)
+      end
+    end
+
+    it 'fails if there is an extra key' do
+      default.merge!( {foo: 3} )
+      expect { client.notify_app(default) }.to raise_error(ArgumentError)
+    end
+  end
+end
