@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     minitel (0.0.1)
-      excon (~> 0, > 0.16)
+      excon (~> 0, >= 0.16)
       multi_json (~> 1.0)
 
 GEM
