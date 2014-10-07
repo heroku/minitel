@@ -12,6 +12,10 @@ describe Minitel::Client, '#notify_app' do
     let(:default) { {title: 'a title', body: 'a body', app_uuid: SecureRandom.uuid} }
     let(:client) { Minitel::Client.new('https://u:p@h.com') }
 
+    before do
+      Excon.stub({}, body: MultiJson.dump({}), status: 201)
+    end
+
     it 'works when all 3 are present' do
       expect { client.notify_app(default) }.to_not raise_error
     end

@@ -14,14 +14,11 @@ module Minitel
 
     def notify_app(args)
       keywords = [:app_uuid, :body, :title]
-      strict_args(args.keys, keywords)
-      no_nils(args, keywords)
+      app_uuid, body, title = args[:app_uuid], args[:body], args[:title]
 
-      title    = args.fetch(:title)
-      body     = args.fetch(:body)
-      app_uuid = args.fetch(:app_uuid)
-
-      is_uuid(app_uuid)
+      ensure_strict_args(args.keys, keywords)
+      ensure_no_nils(args, keywords)
+      ensure_is_uuid(app_uuid)
 
       message = {
         title: title,
@@ -37,24 +34,26 @@ module Minitel
     end
 
     private
+
     # A Ruby 2.1 required keyword argument sorta backport
-    def strict_args(keys, accept_keys)
+    def ensure_strict_args(keys, accept_keys)
       if keys.sort != accept_keys.sort
         delta = accept_keys - keys
         raise ArgumentError, "missing or extra keywords: #{delta.join(', ')}"
       end
     end
 
-    def no_nils(args, keys)
+    def ensure_no_nils(args, keys)
       keys.each do |key|
        raise ArgumentError, "keyword #{key} is nil" unless args[key]
       end
     end
 
-    def is_uuid(uuid)
+    def ensure_is_uuid(uuid)
       unless uuid =~ /\A[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}\z/i
         raise ArgumentError, "not formated like a uuid"
       end
     end
+
   end
 end
