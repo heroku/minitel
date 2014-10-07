@@ -20,7 +20,7 @@ end
 describe Minitel::Client, '#notify_app' do
   describe 'arguments' do
     let(:defaults) { {title: 'a title', body: 'a body', app_uuid: SecureRandom.uuid} }
-    let(:client) { Minitel::Client.new('https://u:p@h.com') }
+    let(:client)   { Minitel::Client.new('https://u:p@h.com') }
 
     before do
       Excon.stub({}, body: MultiJson.dump({}), status: 201)
@@ -55,10 +55,10 @@ describe Minitel::Client, '#notify_app' do
 
   describe 'action' do
     let(:defaults) { {title: 'a title', body: 'a body', app_uuid: SecureRandom.uuid} }
-    let(:request) { {path: '/producer/messages', method: :post} }
-    let(:client)  { Minitel::Client.new('https://u:p@h.com') }
+    let(:client)   { Minitel::Client.new('https://u:p@h.com') }
 
-    it 'posts a proper json body to the producer messages endpoint' do
+    before do
+      request = {path: '/producer/messages', method: :post}
       response = {status: 201, body: MultiJson.dump({'success' => true})}
       body = MultiJson.dump({
         title: 'a title',
@@ -67,6 +67,9 @@ describe Minitel::Client, '#notify_app' do
       })
 
       Excon.stub(request.merge(body: body), response)
+    end
+
+    it 'posts a proper json body to the producer messages endpoint' do
       expect{ client.notify_app(defaults) }.to_not raise_error
 
       unstubbed_body = defaults.merge({title: 'bad title'})
@@ -74,7 +77,8 @@ describe Minitel::Client, '#notify_app' do
     end
 
     it 'returns a parsed json response' do
-
+      result = client.notify_app(defaults)
+      expect(result['success']).to eq(true)
     end
   end
 end
