@@ -6,7 +6,9 @@ module Minitel
     attr_accessor :telex_url
 
     def initialize(telex_url)
-      raise "Bad Url" unless telex_url.start_with? "https://"
+      unless telex_url.start_with? "https://"
+        raise ArgumentError, "Bad Url"
+      end
       self.telex_url = telex_url
     end
 
