@@ -17,10 +17,20 @@ describe Minitel::Client, '#notify_app' do
     end
 
     [:title, :body, :app_uuid].each do |key|
-      it "fails when #{key} is missing" do
+      it "fails when #{key} is missing from the arg hash" do
         default.delete(key)
         expect { client.notify_app(default) }.to raise_error(ArgumentError)
       end
+
+      it "fails when #{key} is nil" do
+        default[key] = nil
+        expect { client.notify_app(default) }.to raise_error(ArgumentError)
+      end
+    end
+
+    it 'fails if app_uuid is not a uuid' do
+      default[:app_uuid] = "not a uuid"
+      expect { client.notify_app(default) }.to raise_error(ArgumentError)
     end
 
     it 'fails if there is an extra key' do
