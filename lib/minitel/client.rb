@@ -3,13 +3,13 @@ require 'excon'
 
 module Minitel
   class Client
-    attr_accessor :telex_url
+    attr_accessor :connection
 
     def initialize(telex_url)
       unless telex_url.start_with? "https://"
         raise ArgumentError, "Bad Url"
       end
-      self.telex_url = telex_url
+      self.connection = Excon.new(telex_url)
     end
 
     def notify_app(args)
@@ -26,7 +26,8 @@ module Minitel
         target: {type: 'app', id: app_uuid}
       }
 
-      response = Excon.post("#{telex_url}/producer/messages",
+      response = connection.post(
+                   path: "/producer/messages",
                    body: MultiJson.dump(message),
                    expects: 201)
 
