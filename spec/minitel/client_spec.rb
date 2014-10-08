@@ -1,19 +1,29 @@
 require 'spec_helper'
 
 describe Minitel::Client, '#initialize' do
-  it 'requires an https url' do
-    expect{ Minitel::Client.new('http://user:pass@what.com')  }.to     raise_error(ArgumentError)
-    expect{ Minitel::Client.new('https://user:pass@what.com') }.to_not raise_error
+  before do
+    url = "https://u:p@foo.com"
+    client = Minitel::Client.new(url)
+    @data = client.connection.data
   end
 
   it 'uses the given url and credentials' do
-    url = "https://u:p@foo.com"
-    mock = double(:excon)
-    expect(Excon).to receive(:new).with(url).and_return(mock)
+    expect(@data[:host]).to     eq('foo.com')
+    expect(@data[:user]).to     eq('u')
+    expect(@data[:password]).to eq('p')
+  end
 
-    client = Minitel::Client.new(url)
+  it 'includes the minitel and excon versions in the user agent' do
+    user_agent = @data[:headers]['User-Agent']
+    expect(user_agent).to match('minitel')
+    expect(user_agent).to match(Minitel::VERSION)
+    expect(user_agent).to match('excon')
+    expect(user_agent).to match(Excon::VERSION)
+  end
 
-    expect(client.connection).to eq(mock)
+  it 'requires an https url' do
+    expect{ Minitel::Client.new('http://user:pass@what.com')  }.to     raise_error(ArgumentError)
+    expect{ Minitel::Client.new('https://user:pass@what.com') }.to_not raise_error
   end
 end
 

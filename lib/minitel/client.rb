@@ -9,7 +9,11 @@ module Minitel
       unless telex_url.start_with? "https://"
         raise ArgumentError, "Bad Url"
       end
-      self.connection = Excon.new(telex_url)
+      self.connection = Excon.new(telex_url,
+        :headers => {
+          "User-Agent" => "minitel/#{Minitel::VERSION} excon/#{Excon::VERSION}"
+        }
+      )
     end
 
     def notify_app(args)
