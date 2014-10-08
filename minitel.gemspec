@@ -20,5 +20,6 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'excon', '~> 0', ">= 0.20"
   gem.add_runtime_dependency 'multi_json', '~> 1.0'
 
+  gem.add_development_dependency 'guard', '~> 2.6'
   gem.add_development_dependency 'rspec', '~> 3.0'
 end
