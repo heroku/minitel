@@ -24,40 +24,18 @@ module Minitel
       ensure_no_nils(args, keywords)
       ensure_is_uuid(app_uuid)
 
-      message = {
-        title: title,
-        body: body,
-        target: {type: 'app', id: app_uuid}
-      }
-
-      response = connection.post(
-                   path: "/producer/messages",
-                   body: MultiJson.dump(message),
-                   expects: 201)
-
-      MultiJson.load(response.body)
+      post_message('app', app_uuid, title, body)
     end
 
     def notify_user(args)
       keywords = [:user_uuid, :body, :title]
-      app_uuid, body, title = args[:user_uuid], args[:body], args[:title]
+      user_uuid, body, title = args[:user_uuid], args[:body], args[:title]
 
       ensure_strict_args(args.keys, keywords)
       ensure_no_nils(args, keywords)
-      ensure_is_uuid(app_uuid)
+      ensure_is_uuid(user_uuid)
 
-      message = {
-        title: title,
-        body: body,
-        target: {type: 'user', id: app_uuid}
-      }
-
-      response = connection.post(
-                   path: "/producer/messages",
-                   body: MultiJson.dump(message),
-                   expects: 201)
-
-      MultiJson.load(response.body)
+      post_message('user', user_uuid, title, body)
     end
 
     private
@@ -80,6 +58,21 @@ module Minitel
       unless uuid =~ /\A[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}\z/i
         raise ArgumentError, "not formated like a uuid"
       end
+    end
+
+    def post_message(type, id, title, body)
+      message = {
+        title: title,
+        body: body,
+        target: {type: type, id: id}
+      }
+
+      response = connection.post(
+                   path: "/producer/messages",
+                   body: MultiJson.dump(message),
+                   expects: 201)
+
+      MultiJson.load(response.body)
     end
 
   end
