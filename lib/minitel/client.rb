@@ -38,6 +38,28 @@ module Minitel
       MultiJson.load(response.body)
     end
 
+    def notify_user(args)
+      keywords = [:user_uuid, :body, :title]
+      app_uuid, body, title = args[:user_uuid], args[:body], args[:title]
+
+      ensure_strict_args(args.keys, keywords)
+      ensure_no_nils(args, keywords)
+      ensure_is_uuid(app_uuid)
+
+      message = {
+        title: title,
+        body: body,
+        target: {type: 'user', id: app_uuid}
+      }
+
+      response = connection.post(
+                   path: "/producer/messages",
+                   body: MultiJson.dump(message),
+                   expects: 201)
+
+      MultiJson.load(response.body)
+    end
+
     private
 
     # A Ruby 2.1 required keyword argument sorta backport
