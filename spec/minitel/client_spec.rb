@@ -87,3 +87,30 @@ describe Minitel::Client, '#notify_user' do
     expect(result['success']).to eq(true)
   end
 end
+
+describe Minitel::Client, '#add_followup' do
+  let(:defaults) { {body: 'a body', message_uuid: SecureRandom.uuid} }
+  let(:client)   { Minitel::Client.new('https://u:p@h.com') }
+
+  before do
+    request = {path: "/producer/messages/#{defaults[:message_uuid]}/followups", method: :post}
+    response = {status: 201, body: MultiJson.dump({'success' => true})}
+    body = MultiJson.dump({
+      body: 'a body',
+    })
+
+    Excon.stub(request.merge(body: body), response)
+  end
+
+  it 'posts a proper json body to the producer messages endpoint' do
+    expect{ client.add_followup(defaults) }.to_not raise_error
+
+    unstubbed_body = defaults.merge({message_uuid: SecureRandom.uuid})
+    expect{ client.add_followup(unstubbed_body) }.to raise_error(Excon::Errors::StubNotFound)
+  end
+
+  it 'returns a parsed json response' do
+    result = client.add_followup(defaults)
+    expect(result['success']).to eq(true)
+  end
+end
