@@ -30,7 +30,7 @@ module Minitel
       StrictArgs.enforce(args, [:message_uuid, :body], :message_uuid)
       followup = { body: args[:body] }
 
-      post(path: "/producer/messages/#{args[:message_uuid]}/followups", body: followup)
+      post("/producer/messages/#{args[:message_uuid]}/followups", followup)
     end
 
     private
@@ -42,10 +42,10 @@ module Minitel
         target: {type: type, id: id}
       }
 
-      post(path: "/producer/messages", body: message)
+      post("/producer/messages", message)
     end
 
-    def post(path:, body:)
+    def post(path, body)
       response = connection.post(
                    path: path,
                    body: MultiJson.dump(body),
