@@ -17,4 +17,8 @@ client.notify_app(app_uuid: '...', title: 'Something happened', body: 'here are 
 
 # send a notifcation to a user
 client.notify_user(user_uuid: '...', title: 'Something happened', body: 'here are the details')
+# => {"id"=>"uuid of message"}
+
+# add folloup to a previous notificaiton
+client.notify_user(message_uuid: '...', body: 'here are even more details')
 ```
