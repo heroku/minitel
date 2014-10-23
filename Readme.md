@@ -20,5 +20,5 @@ client.notify_user(user_uuid: '...', title: 'Something happened', body: 'here ar
 # => {"id"=>"uuid of message"}
 
 # add folloup to a previous notificaiton
-client.notify_user(message_uuid: '...', body: 'here are even more details')
+client.add_followup(message_uuid: '...', body: 'here are even more details')
 ```
