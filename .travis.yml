@@ -11,4 +11,5 @@ rvm:
 script: bundle exec rspec
 notifications:
     email: false
+sudo: false
 
