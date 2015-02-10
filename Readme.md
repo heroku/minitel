@@ -19,6 +19,6 @@ client.notify_app(app_uuid: '...', title: 'Your database is on fire!', body: 'So
 client.notify_user(user_uuid: '...', title: 'Here is your invoice', body: 'You owe us 65k.')
 # => {"id"=>"uuid of message"}
 
-# add folloup to a previous notificaiton
+# add folloup to a previous notification
 client.add_followup(message_uuid: '...', body: 'here are even more details')
 ```
