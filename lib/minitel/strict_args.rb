@@ -1,17 +1,21 @@
 module Minitel
   module StrictArgs
     extend self
-    def enforce(args, keywords, uuid_field)
-      ensure_strict_args(args.keys, keywords)
-      ensure_no_nils(args, keywords)
-      ensure_is_uuid(args[uuid_field])
+    def enforce(args, required, allowed=[], uuid_field=nil)
+      ensure_strict_args(args.keys, required, allowed)
+      ensure_no_nils(args, required)
+      ensure_is_uuid(args[uuid_field]) if uuid_field
     end
 
     # A Ruby 2.1 required keyword argument sorta backport
-    def ensure_strict_args(keys, accept_keys)
-      if keys.sort != accept_keys.sort
-        delta = accept_keys - keys
-        raise ArgumentError, "missing or extra keywords: #{delta.join(', ')}"
+    def ensure_strict_args(keys, required, allowed)
+      missing = required - keys
+      unless missing.empty?
+        raise ArgumentError, "missing keywords: #{missing.join(', ')}"
+      end
+      unknown = keys - (required + allowed)
+      unless unknown.empty?
+        raise ArgumentError, "extra keywords: #{unknown.join(', ')}"
       end
     end
 

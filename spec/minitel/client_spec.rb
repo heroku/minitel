@@ -46,6 +46,16 @@ describe Minitel::Client, '#notify_app' do
       expect(@stub.with(body: body)).to have_been_requested
     end
 
+    it 'supports actions' do
+      action = { label: 'omg', url: 'https://foo' }
+      client.notify_app(defaults.merge(action: action))
+      post_with_action = @stub.with do |req|
+        body = MultiJson.decode(req.body, symbolize_keys: true)
+        body[:action] == action
+      end
+      expect(post_with_action).to have_been_requested
+    end
+
     it 'returns a parsed json response' do
       result = client.notify_app(defaults)
       expect(result['success']).to eq(true)
@@ -70,6 +80,16 @@ describe Minitel::Client, '#notify_user' do
       body: 'a body',
       target: {type: 'user', id: defaults[:user_uuid]})
     expect(@stub.with(body: body)).to have_been_requested
+  end
+
+  it 'supports actions' do
+    action = { label: 'omg', url: 'https://foo' }
+    client.notify_user(defaults.merge(action: action))
+    post_with_action = @stub.with do |req|
+      body = MultiJson.decode(req.body, symbolize_keys: true)
+      body[:action] == action
+    end
+    expect(post_with_action).to have_been_requested
   end
 
   it 'returns a parsed json response' do
