@@ -12,11 +12,11 @@ require 'minitel'
 client = Minitel::Client.new("https://user:pass@telex.heroku.com")
 
 # send a notifcation to the owner and collaborators of an app
-client.notify_app(app_uuid: '...', title: 'Something happened', body: 'here are the details')
+client.notify_app(app_uuid: '...', title: 'Your database is on fire!', body: 'Sorry.')
 # => {"id"=>"uuid of message"}
 
 # send a notifcation to a user
-client.notify_user(user_uuid: '...', title: 'Something happened', body: 'here are the details')
+client.notify_user(user_uuid: '...', title: 'Here is your invoice', body: 'You owe us 65k.')
 # => {"id"=>"uuid of message"}
 
 # add folloup to a previous notificaiton
