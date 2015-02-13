@@ -17,30 +17,39 @@ module Minitel
     end
 
     def notify_app(args)
-      StrictArgs.enforce(args, [:app_uuid, :body, :title], :app_uuid)
-      post_message('app', args[:app_uuid], args[:title], args[:body])
+      StrictArgs.enforce(args, [:app_uuid, :body, :title], [:action], :app_uuid)
+      if action = args[:action]
+        StrictArgs.enforce(action, [:label, :url])
+      end
+      post_message('app', args[:app_uuid], args[:title], args[:body], action)
     end
 
     def notify_user(args)
-      StrictArgs.enforce(args, [:user_uuid, :body, :title], :user_uuid)
-      post_message('user', args[:user_uuid], args[:title], args[:body])
+      StrictArgs.enforce(args, [:user_uuid, :body, :title], [:action], :user_uuid)
+      if action = args[:action]
+        StrictArgs.enforce(action, [:label, :url])
+      end
+      post_message('user', args[:user_uuid], args[:title], args[:body], action)
     end
 
     def add_followup(args)
-      StrictArgs.enforce(args, [:message_uuid, :body], :message_uuid)
+      StrictArgs.enforce(args, [:message_uuid, :body], [], :message_uuid)
       followup = { body: args[:body] }
-
       post("/producer/messages/#{args[:message_uuid]}/followups", followup)
     end
 
     private
 
-    def post_message(type, id, title, body)
+    def post_message(type, id, title, body, action)
       message = {
         title: title,
         body: body,
         target: {type: type, id: id}
       }
+
+      if action
+        message.merge!(action: action)
+      end
 
       post("/producer/messages", message)
     end

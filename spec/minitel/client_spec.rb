@@ -30,25 +30,30 @@ end
 describe Minitel::Client, '#notify_app' do
   describe 'action' do
     let(:defaults) { {title: 'a title', body: 'a body', app_uuid: SecureRandom.uuid} }
-    let(:client)   { Minitel::Client.new('https://u:p@h.com') }
+    let(:client)   { Minitel::Client.new('https://telex.com') }
 
     before do
-      request = {path: '/producer/messages', method: :post}
-      response = {status: 201, body: MultiJson.dump({'success' => true})}
-      body = MultiJson.dump({
-        title: 'a title',
-        body: 'a body',
-        target: {type: 'app', id: defaults[:app_uuid]}
-      })
-
-      Excon.stub(request.merge(body: body), response)
+      @stub = stub_request(:post, 'https://telex.com/producer/messages').
+        to_return(status: 201, body: MultiJson.encode(success: true))
     end
 
     it 'posts a proper json body to the producer messages endpoint' do
-      expect{ client.notify_app(defaults) }.to_not raise_error
+      client.notify_app(defaults)
+      body = MultiJson.encode(
+        title: 'a title',
+        body: 'a body',
+        target: {type: 'app', id: defaults[:app_uuid]})
+      expect(@stub.with(body: body)).to have_been_requested
+    end
 
-      unstubbed_body = defaults.merge({title: 'bad title'})
-      expect{ client.notify_app(unstubbed_body) }.to raise_error(Excon::Errors::StubNotFound)
+    it 'supports actions' do
+      action = { label: 'omg', url: 'https://foo' }
+      client.notify_app(defaults.merge(action: action))
+      post_with_action = @stub.with do |req|
+        body = MultiJson.decode(req.body, symbolize_keys: true)
+        body[:action] == action
+      end
+      expect(post_with_action).to have_been_requested
     end
 
     it 'returns a parsed json response' do
@@ -61,25 +66,30 @@ end
 
 describe Minitel::Client, '#notify_user' do
   let(:defaults) { {title: 'a title', body: 'a body', user_uuid: SecureRandom.uuid} }
-  let(:client)   { Minitel::Client.new('https://u:p@h.com') }
+  let(:client)   { Minitel::Client.new('https://telex.com') }
 
   before do
-    request = {path: '/producer/messages', method: :post}
-    response = {status: 201, body: MultiJson.dump({'success' => true})}
-    body = MultiJson.dump({
-      title: 'a title',
-      body: 'a body',
-      target: {type: 'user', id: defaults[:user_uuid]}
-    })
-
-    Excon.stub(request.merge(body: body), response)
+    @stub = stub_request(:post, 'https://telex.com/producer/messages').
+      to_return(status: 201, body: MultiJson.encode(success: true))
   end
 
   it 'posts a proper json body to the producer messages endpoint' do
-    expect{ client.notify_user(defaults) }.to_not raise_error
+    client.notify_user(defaults)
+    body = MultiJson.encode(
+      title: 'a title',
+      body: 'a body',
+      target: {type: 'user', id: defaults[:user_uuid]})
+    expect(@stub.with(body: body)).to have_been_requested
+  end
 
-    unstubbed_body = defaults.merge({title: 'bad title'})
-    expect{ client.notify_user(unstubbed_body) }.to raise_error(Excon::Errors::StubNotFound)
+  it 'supports actions' do
+    action = { label: 'omg', url: 'https://foo' }
+    client.notify_user(defaults.merge(action: action))
+    post_with_action = @stub.with do |req|
+      body = MultiJson.decode(req.body, symbolize_keys: true)
+      body[:action] == action
+    end
+    expect(post_with_action).to have_been_requested
   end
 
   it 'returns a parsed json response' do
@@ -90,23 +100,17 @@ end
 
 describe Minitel::Client, '#add_followup' do
   let(:defaults) { {body: 'a body', message_uuid: SecureRandom.uuid} }
-  let(:client)   { Minitel::Client.new('https://u:p@h.com') }
+  let(:client)   { Minitel::Client.new('https://telex.com') }
 
   before do
-    request = {path: "/producer/messages/#{defaults[:message_uuid]}/followups", method: :post}
-    response = {status: 201, body: MultiJson.dump({'success' => true})}
-    body = MultiJson.dump({
-      body: 'a body',
-    })
-
-    Excon.stub(request.merge(body: body), response)
+    @stub = stub_request(:post, "https://telex.com/producer/messages/#{defaults[:message_uuid]}/followups").
+      to_return(status: 201, body: MultiJson.encode(success: true))
   end
 
   it 'posts a proper json body to the producer messages endpoint' do
-    expect{ client.add_followup(defaults) }.to_not raise_error
-
-    unstubbed_body = defaults.merge({message_uuid: SecureRandom.uuid})
-    expect{ client.add_followup(unstubbed_body) }.to raise_error(Excon::Errors::StubNotFound)
+    client.add_followup(defaults)
+    body = MultiJson.encode(body: 'a body')
+    expect(@stub.with(body: body)).to have_been_requested
   end
 
   it 'returns a parsed json response' do
