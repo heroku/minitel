@@ -26,6 +26,6 @@ client.notify_user(user_uuid: '...',
   body: 'You owe us 65k.',
   action: { label: 'View Invoice', url: 'https://heroku.com/invoices/12345-12-98765'})
 
-# add folloup to a previous notification
+# add follow-up to a previous notification
 client.add_followup(message_uuid: '...', body: 'here are even more details')
 ```
