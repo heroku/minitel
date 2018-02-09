@@ -26,9 +26,9 @@ MY_USER_ID = '123'
 ```
 
 ```
-# minitel-testing.rb
-require 'minitel'
+# minitel-testing.rb or irb
 require 'dotenv/load'
+require 'minitel'
 
 client = Minitel::Client.new(ENV['TELEX_URL'])
 
