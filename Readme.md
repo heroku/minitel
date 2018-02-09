@@ -8,7 +8,24 @@ A 𝕋𝔼𝕃𝔼𝕏 client
 
 Get credentials to use by following the instructions here: https://github.com/heroku/engineering-docs/blob/master/components/telex/user-guide.md
 
-## Usage
+## Quick Setup
+Grab your user account id, for example by doing: `heroku api get /account | jq '.id' -r`
+
+```
+# minitel-testing.rb
+require 'minitel'
+
+client = Minitel::Client.new("https://user:pass@telex.heroku.com")
+
+my_user_uuid = '123-456' # your user account id
+client.notify_user(user_uuid: my_user_uuid, title: 'Test Notification', body: 'Test Notification Body.')
+```
+
+You should both:
+- receive an email (eventually, depending on the backlog)
+- see this in Dashboard's Notification Center
+
+## Usage Examples
 
 ``` ruby
 require 'minitel'
