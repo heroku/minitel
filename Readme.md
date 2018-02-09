@@ -28,7 +28,7 @@ MY_USER_ID = '123'
 client = Minitel::Client.new(TELEX_URL)
 
 message = client.notify_user(user_uuid: MY_USER_ID, title: 'Test Notification', body: 'Test Notification Body.')
-puts "message " + message.id + " sent"
+puts "message " + message["id"] + " sent"
 ```
 
 Once you run this, you should receive both:
