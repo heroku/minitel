@@ -4,6 +4,10 @@ A 𝕋𝔼𝕃𝔼𝕏 client
 [![Gem Version](https://badge.fury.io/rb/minitel.svg)](http://badge.fury.io/rb/minitel)
 [![Build Status](https://travis-ci.org/heroku/minitel.svg?branch=master)](https://travis-ci.org/heroku/minitel)
 
+## Producer Credentials
+
+Get credentials to use by following the instructions here: https://github.com/heroku/engineering-docs/blob/master/components/telex/user-guide.md
+
 ## Usage
 
 ``` ruby
