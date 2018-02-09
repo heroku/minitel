@@ -8,13 +8,16 @@ A 𝕋𝔼𝕃𝔼𝕏 client
 
 Get credentials to use by following the instructions here: https://github.com/heroku/engineering-docs/blob/master/components/telex/user-guide.md
 
+## Installing Minitel
+You'll need to add our private gemserver first, see here: <https://gemgate-heroku-internal-gems.herokuapp.com/setup-instructions>
+
 ## Quick Setup
 This will help you send a notification to just yourself, as a sanity check that everything is set up properly
 
 Before you do this:
 - Get your producer credentials (above)
+- get minitel installed locally (above)
 - Grab your user account id, for example by doing: `heroku api get /account | jq '.id' -r`
-- get minitel installed locally (it's private)
 
 ```
 # minitel-testing.rb
