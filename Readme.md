@@ -22,11 +22,13 @@ Before you do this:
 ```
 # minitel-testing.rb
 require 'minitel'
+TELEX_URL = 'https://user:pass@telex.heroku.com'
+MY_USER_ID = '123'
 
-client = Minitel::Client.new("https://user:pass@telex.heroku.com")
+client = Minitel::Client.new(TELEX_URL)
 
-my_user_uuid = '123-456' # your user account id
-client.notify_user(user_uuid: my_user_uuid, title: 'Test Notification', body: 'Test Notification Body.')
+message = client.notify_user(user_uuid: MY_USER_ID, title: 'Test Notification', body: 'Test Notification Body.')
+puts "message " + message.id + " sent"
 ```
 
 Once you run this, you should receive both:
