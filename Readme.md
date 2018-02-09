@@ -16,19 +16,24 @@ This will help you send a notification to just yourself, as a sanity check that 
 
 Before you do this:
 - Get your producer credentials (above)
-- get minitel installed locally (above)
+- get `minitel` (above) and `dotenv` installed locally
 - Grab your user account id, for example by doing: `heroku api get /account | jq '.id' -r`
+
+```
+# .env
+TELEX_URL = 'https://user:pass@telex.heroku.com'
+MY_USER_ID = '123'
+```
 
 ```
 # minitel-testing.rb
 require 'minitel'
-TELEX_URL = 'https://user:pass@telex.heroku.com'
-MY_USER_ID = '123'
+require 'dotenv/load'
 
-client = Minitel::Client.new(TELEX_URL)
+client = Minitel::Client.new(ENV['TELEX_URL'])
 
-message = client.notify_user(user_uuid: MY_USER_ID, title: 'Test Notification', body: 'Test Notification Body.')
-puts "message " + message["id"] + " sent"
+message = client.notify_user(user_uuid: ENV['MY_USER_ID'], title: 'Test Notification', body: 'Test Notification Body.')
+puts "message " + message['id'] + " sent"
 ```
 
 Once you run this, you should receive both:
