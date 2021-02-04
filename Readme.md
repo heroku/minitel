@@ -8,7 +8,39 @@ A 𝕋𝔼𝕃𝔼𝕏 client
 
 Get credentials to use by following the instructions here: https://github.com/heroku/engineering-docs/blob/master/components/telex/user-guide.md
 
-## Usage
+## Installing Minitel
+You'll need to add our private gemserver first, see here: <https://gemgate-heroku-internal-gems.herokuapp.com/setup-instructions>
+
+## Quick Setup
+This will help you send a notification to just yourself, as a sanity check that everything is set up properly
+
+Before you do this:
+- Get your producer credentials (above)
+- get `minitel` (above) and `dotenv` installed locally
+- Grab your user account id, for example by doing: `heroku api get /account | jq '.id' -r`
+
+```
+# .env
+TELEX_URL = 'https://user:pass@telex.heroku.com'
+MY_USER_ID = '123'
+```
+
+```
+# minitel-testing.rb or irb
+require 'dotenv/load'
+require 'minitel'
+
+client = Minitel::Client.new(ENV['TELEX_URL'])
+
+message = client.notify_user(user_uuid: ENV['MY_USER_ID'], title: 'Test Notification', body: 'Test Notification Body.')
+puts "message " + message['id'] + " sent"
+```
+
+Once you run this, you should receive both:
+- receive an email (eventually, depending on the backlog)
+- see this in Dashboard's Notification Center
+
+## Usage Examples
 
 ``` ruby
 require 'minitel'
