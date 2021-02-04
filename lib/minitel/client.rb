@@ -11,7 +11,8 @@ module Minitel
       end
       self.connection = Excon.new(telex_url,
         :headers => {
-          "User-Agent" => "minitel/#{Minitel::VERSION} excon/#{Excon::VERSION}"
+          "User-Agent" => "minitel/#{Minitel::VERSION} excon/#{Excon::VERSION}",
+          "Content-Type" => "application/json"
         }
       )
     end
