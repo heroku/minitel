@@ -17,7 +17,6 @@ Gem::Specification.new do |gem|
   gem.platform      = Gem::Platform::RUBY
   gem.license       = "MIT"
 
-  gem.add_runtime_dependency 'excon', '> 0.20'
   gem.add_runtime_dependency 'json'
 
   gem.add_development_dependency 'guard', '~> 2.6'

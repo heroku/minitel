@@ -3,22 +3,13 @@ require 'spec_helper'
 RSpec.describe Minitel::Client, '#initialize' do
   before do
     url = "https://EXAMPLE-KEY0-0000-0000-000000000000:EXAMPLE-SEC0-0000-0000-000000000000@telex.example.com"
-    client = Minitel::Client.new(url)
-    @data = client.connection.data
+    @client = Minitel::Client.new(url)
   end
 
   it 'uses the given url and credentials' do
-    expect(@data[:host]).to     eq('telex.example.com')
-    expect(@data[:user]).to     eq('EXAMPLE-KEY0-0000-0000-000000000000')
-    expect(@data[:password]).to eq('EXAMPLE-SEC0-0000-0000-000000000000')
-  end
-
-  it 'includes the minitel and excon versions in the user agent' do
-    user_agent = @data[:headers]['User-Agent']
-    expect(user_agent).to match('minitel')
-    expect(user_agent).to match(Minitel::VERSION)
-    expect(user_agent).to match('excon')
-    expect(user_agent).to match(Excon::VERSION)
+    expect(@client.uri.host).to eq('telex.example.com')
+    expect(@client.user).to     eq('EXAMPLE-KEY0-0000-0000-000000000000')
+    expect(@client.password).to eq('EXAMPLE-SEC0-0000-0000-000000000000')
   end
 
   it 'requires an https url' do
@@ -54,7 +45,7 @@ RSpec.describe Minitel::Client, '#notify_app' do
     client.notify_app(defaults)
     expect(@stub.with(headers: {
       'Content-Type' => 'application/json',
-      'User-Agent' => "minitel/#{Minitel::VERSION} excon/#{Excon::VERSION}"
+      'User-Agent' => "minitel/#{Minitel::VERSION}"
     })).to have_been_requested
   end
 
@@ -101,7 +92,7 @@ RSpec.describe Minitel::Client, '#notify_user' do
     client.notify_user(defaults)
     expect(@stub.with(headers: {
       'Content-Type' => 'application/json',
-      'User-Agent' => "minitel/#{Minitel::VERSION} excon/#{Excon::VERSION}"
+      'User-Agent' => "minitel/#{Minitel::VERSION}"
     })).to have_been_requested
   end
 
@@ -145,7 +136,7 @@ RSpec.describe Minitel::Client, '#add_followup' do
     client.add_followup(defaults)
     expect(@stub.with(headers: {
       'Content-Type' => 'application/json',
-      'User-Agent' => "minitel/#{Minitel::VERSION} excon/#{Excon::VERSION}"
+      'User-Agent' => "minitel/#{Minitel::VERSION}"
     })).to have_been_requested
   end
 

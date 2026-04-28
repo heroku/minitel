@@ -1,20 +1,18 @@
 require 'json'
-require 'excon'
+require 'net/http'
+require 'uri'
 
 module Minitel
   class Client
-    attr_accessor :connection
+    attr_reader :uri, :user, :password
 
     def initialize(telex_url)
       unless telex_url.start_with? "https://"
         raise ArgumentError, "Bad Url"
       end
-      self.connection = Excon.new(telex_url,
-        :headers => {
-          "User-Agent" => "minitel/#{Minitel::VERSION} excon/#{Excon::VERSION}",
-          "Content-Type" => "application/json"
-        }
-      )
+      @uri = URI.parse(telex_url)
+      @user = @uri.user
+      @password = @uri.password
     end
 
     def notify_app(args)
@@ -56,11 +54,16 @@ module Minitel
     end
 
     def post(path, body)
-      response = connection.post(
-                   path: path,
-                   body: JSON.generate(body),
-                   expects: 201)
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = true
 
+      request = Net::HTTP::Post.new(path)
+      request.basic_auth(user, password)
+      request['Content-Type'] = 'application/json'
+      request['User-Agent'] = "minitel/#{Minitel::VERSION}"
+      request.body = JSON.generate(body)
+
+      response = http.request(request)
       JSON.parse(response.body)
     end
 
