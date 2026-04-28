@@ -2,15 +2,15 @@ require 'spec_helper'
 
 RSpec.describe Minitel::Client, '#initialize' do
   before do
-    url = "https://u:p@foo.com"
+    url = "https://EXAMPLE-KEY0-0000-0000-000000000000:EXAMPLE-SEC0-0000-0000-000000000000@telex.example.com"
     client = Minitel::Client.new(url)
     @data = client.connection.data
   end
 
   it 'uses the given url and credentials' do
-    expect(@data[:host]).to     eq('foo.com')
-    expect(@data[:user]).to     eq('u')
-    expect(@data[:password]).to eq('p')
+    expect(@data[:host]).to     eq('telex.example.com')
+    expect(@data[:user]).to     eq('EXAMPLE-KEY0-0000-0000-000000000000')
+    expect(@data[:password]).to eq('EXAMPLE-SEC0-0000-0000-000000000000')
   end
 
   it 'includes the minitel and excon versions in the user agent' do
@@ -28,48 +28,58 @@ RSpec.describe Minitel::Client, '#initialize' do
 end
 
 RSpec.describe Minitel::Client, '#notify_app' do
-  describe 'action' do
-    let(:defaults) { {title: 'a title', body: 'a body', app_uuid: SecureRandom.uuid} }
-    let(:client)   { Minitel::Client.new('https://telex.com') }
+  let(:defaults) { {title: 'a title', body: 'a body', app_uuid: SecureRandom.uuid} }
+  let(:client)   { Minitel::Client.new('https://EXAMPLE-KEY0-0000-0000-000000000000:EXAMPLE-SEC0-0000-0000-000000000000@telex.example.com') }
 
-    before do
-      @stub = WebMock.stub_request(:post, 'https://telex.com/producer/messages').
-        to_return(status: 201, body: JSON.generate(success: true))
-    end
+  before do
+    @stub = WebMock.stub_request(:post, 'https://telex.example.com/producer/messages').
+      to_return(status: 201, body: JSON.generate(success: true))
+  end
 
-    it 'posts a proper json body to the producer messages endpoint' do
-      client.notify_app(defaults)
-      body = JSON.generate(
-        title: 'a title',
-        body: 'a body',
-        target: {type: 'app', id: defaults[:app_uuid]})
-      expect(@stub.with(body: body)).to have_been_requested
-    end
+  it 'posts a proper json body to the producer messages endpoint' do
+    client.notify_app(defaults)
+    body = JSON.generate(
+      title: 'a title',
+      body: 'a body',
+      target: {type: 'app', id: defaults[:app_uuid]})
+    expect(@stub.with(body: body)).to have_been_requested
+  end
 
-    it 'supports actions' do
-      action = { label: 'omg', url: 'https://foo' }
-      client.notify_app(defaults.merge(action: action))
-      post_with_action = @stub.with do |req|
-        body = JSON.parse(req.body, symbolize_names: true)
-        body[:action] == action
-      end
-      expect(post_with_action).to have_been_requested
-    end
+  it 'sends basic auth credentials' do
+    client.notify_app(defaults)
+    expect(@stub.with(basic_auth: ['EXAMPLE-KEY0-0000-0000-000000000000', 'EXAMPLE-SEC0-0000-0000-000000000000'])).to have_been_requested
+  end
 
-    it 'returns a parsed json response' do
-      result = client.notify_app(defaults)
-      expect(result['success']).to eq(true)
+  it 'sends correct content-type and user-agent headers' do
+    client.notify_app(defaults)
+    expect(@stub.with(headers: {
+      'Content-Type' => 'application/json',
+      'User-Agent' => "minitel/#{Minitel::VERSION} excon/#{Excon::VERSION}"
+    })).to have_been_requested
+  end
+
+  it 'supports actions' do
+    action = { label: 'omg', url: 'https://foo' }
+    client.notify_app(defaults.merge(action: action))
+    post_with_action = @stub.with do |req|
+      body = JSON.parse(req.body, symbolize_names: true)
+      body[:action] == action
     end
+    expect(post_with_action).to have_been_requested
+  end
+
+  it 'returns a parsed json response' do
+    result = client.notify_app(defaults)
+    expect(result['success']).to eq(true)
   end
 end
 
-
 RSpec.describe Minitel::Client, '#notify_user' do
   let(:defaults) { {title: 'a title', body: 'a body', user_uuid: SecureRandom.uuid} }
-  let(:client)   { Minitel::Client.new('https://telex.com') }
+  let(:client)   { Minitel::Client.new('https://EXAMPLE-KEY0-0000-0000-000000000000:EXAMPLE-SEC0-0000-0000-000000000000@telex.example.com') }
 
   before do
-    @stub = WebMock.stub_request(:post, 'https://telex.com/producer/messages').
+    @stub = WebMock.stub_request(:post, 'https://telex.example.com/producer/messages').
       to_return(status: 201, body: JSON.generate(success: true))
   end
 
@@ -80,6 +90,19 @@ RSpec.describe Minitel::Client, '#notify_user' do
       body: 'a body',
       target: {type: 'user', id: defaults[:user_uuid]})
     expect(@stub.with(body: body)).to have_been_requested
+  end
+
+  it 'sends basic auth credentials' do
+    client.notify_user(defaults)
+    expect(@stub.with(basic_auth: ['EXAMPLE-KEY0-0000-0000-000000000000', 'EXAMPLE-SEC0-0000-0000-000000000000'])).to have_been_requested
+  end
+
+  it 'sends correct content-type and user-agent headers' do
+    client.notify_user(defaults)
+    expect(@stub.with(headers: {
+      'Content-Type' => 'application/json',
+      'User-Agent' => "minitel/#{Minitel::VERSION} excon/#{Excon::VERSION}"
+    })).to have_been_requested
   end
 
   it 'supports actions' do
@@ -100,10 +123,10 @@ end
 
 RSpec.describe Minitel::Client, '#add_followup' do
   let(:defaults) { {body: 'a body', message_uuid: SecureRandom.uuid} }
-  let(:client)   { Minitel::Client.new('https://telex.com') }
+  let(:client)   { Minitel::Client.new('https://EXAMPLE-KEY0-0000-0000-000000000000:EXAMPLE-SEC0-0000-0000-000000000000@telex.example.com') }
 
   before do
-    @stub = WebMock.stub_request(:post, "https://telex.com/producer/messages/#{defaults[:message_uuid]}/followups").
+    @stub = WebMock.stub_request(:post, "https://telex.example.com/producer/messages/#{defaults[:message_uuid]}/followups").
       to_return(status: 201, body: JSON.generate(success: true))
   end
 
@@ -111,6 +134,19 @@ RSpec.describe Minitel::Client, '#add_followup' do
     client.add_followup(defaults)
     body = JSON.generate(body: 'a body')
     expect(@stub.with(body: body)).to have_been_requested
+  end
+
+  it 'sends basic auth credentials' do
+    client.add_followup(defaults)
+    expect(@stub.with(basic_auth: ['EXAMPLE-KEY0-0000-0000-000000000000', 'EXAMPLE-SEC0-0000-0000-000000000000'])).to have_been_requested
+  end
+
+  it 'sends correct content-type and user-agent headers' do
+    client.add_followup(defaults)
+    expect(@stub.with(headers: {
+      'Content-Type' => 'application/json',
+      'User-Agent' => "minitel/#{Minitel::VERSION} excon/#{Excon::VERSION}"
+    })).to have_been_requested
   end
 
   it 'returns a parsed json response' do
