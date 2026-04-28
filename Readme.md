@@ -2,7 +2,7 @@
 A 𝕋𝔼𝕃𝔼𝕏 client
 
 [![Gem Version](https://badge.fury.io/rb/minitel.svg)](http://badge.fury.io/rb/minitel)
-[![Build Status](https://travis-ci.org/heroku/minitel.svg?branch=master)](https://travis-ci.org/heroku/minitel)
+[![Build Status](https://github.com/heroku/minitel/actions/workflows/ruby.yml/badge.svg)](https://github.com/heroku/minitel/actions/workflows/ruby.yml)
 
 ## Producer Credentials
 
