@@ -33,7 +33,7 @@ RSpec.describe Minitel::Client, '#notify_app' do
     let(:client)   { Minitel::Client.new('https://telex.com') }
 
     before do
-      @stub = stub_request(:post, 'https://telex.com/producer/messages').
+      @stub = WebMock.stub_request(:post, 'https://telex.com/producer/messages').
         to_return(status: 201, body: JSON.generate(success: true))
     end
 
@@ -69,7 +69,7 @@ RSpec.describe Minitel::Client, '#notify_user' do
   let(:client)   { Minitel::Client.new('https://telex.com') }
 
   before do
-    @stub = stub_request(:post, 'https://telex.com/producer/messages').
+    @stub = WebMock.stub_request(:post, 'https://telex.com/producer/messages').
       to_return(status: 201, body: JSON.generate(success: true))
   end
 
@@ -103,7 +103,7 @@ RSpec.describe Minitel::Client, '#add_followup' do
   let(:client)   { Minitel::Client.new('https://telex.com') }
 
   before do
-    @stub = stub_request(:post, "https://telex.com/producer/messages/#{defaults[:message_uuid]}/followups").
+    @stub = WebMock.stub_request(:post, "https://telex.com/producer/messages/#{defaults[:message_uuid]}/followups").
       to_return(status: 201, body: JSON.generate(success: true))
   end
 
