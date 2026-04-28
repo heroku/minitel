@@ -1,4 +1,4 @@
-require 'multi_json'
+require 'json'
 require 'excon'
 
 module Minitel
@@ -58,10 +58,10 @@ module Minitel
     def post(path, body)
       response = connection.post(
                    path: path,
-                   body: MultiJson.dump(body),
+                   body: JSON.generate(body),
                    expects: 201)
 
-      MultiJson.load(response.body)
+      JSON.parse(response.body)
     end
 
   end

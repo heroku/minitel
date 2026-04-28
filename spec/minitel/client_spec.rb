@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Minitel::Client, '#initialize' do
+RSpec.describe Minitel::Client, '#initialize' do
   before do
     url = "https://u:p@foo.com"
     client = Minitel::Client.new(url)
@@ -27,19 +27,19 @@ describe Minitel::Client, '#initialize' do
   end
 end
 
-describe Minitel::Client, '#notify_app' do
+RSpec.describe Minitel::Client, '#notify_app' do
   describe 'action' do
     let(:defaults) { {title: 'a title', body: 'a body', app_uuid: SecureRandom.uuid} }
     let(:client)   { Minitel::Client.new('https://telex.com') }
 
     before do
       @stub = stub_request(:post, 'https://telex.com/producer/messages').
-        to_return(status: 201, body: MultiJson.encode(success: true))
+        to_return(status: 201, body: JSON.generate(success: true))
     end
 
     it 'posts a proper json body to the producer messages endpoint' do
       client.notify_app(defaults)
-      body = MultiJson.encode(
+      body = JSON.generate(
         title: 'a title',
         body: 'a body',
         target: {type: 'app', id: defaults[:app_uuid]})
@@ -50,7 +50,7 @@ describe Minitel::Client, '#notify_app' do
       action = { label: 'omg', url: 'https://foo' }
       client.notify_app(defaults.merge(action: action))
       post_with_action = @stub.with do |req|
-        body = MultiJson.decode(req.body, symbolize_keys: true)
+        body = JSON.parse(req.body, symbolize_names: true)
         body[:action] == action
       end
       expect(post_with_action).to have_been_requested
@@ -64,18 +64,18 @@ describe Minitel::Client, '#notify_app' do
 end
 
 
-describe Minitel::Client, '#notify_user' do
+RSpec.describe Minitel::Client, '#notify_user' do
   let(:defaults) { {title: 'a title', body: 'a body', user_uuid: SecureRandom.uuid} }
   let(:client)   { Minitel::Client.new('https://telex.com') }
 
   before do
     @stub = stub_request(:post, 'https://telex.com/producer/messages').
-      to_return(status: 201, body: MultiJson.encode(success: true))
+      to_return(status: 201, body: JSON.generate(success: true))
   end
 
   it 'posts a proper json body to the producer messages endpoint' do
     client.notify_user(defaults)
-    body = MultiJson.encode(
+    body = JSON.generate(
       title: 'a title',
       body: 'a body',
       target: {type: 'user', id: defaults[:user_uuid]})
@@ -86,7 +86,7 @@ describe Minitel::Client, '#notify_user' do
     action = { label: 'omg', url: 'https://foo' }
     client.notify_user(defaults.merge(action: action))
     post_with_action = @stub.with do |req|
-      body = MultiJson.decode(req.body, symbolize_keys: true)
+      body = JSON.parse(req.body, symbolize_names: true)
       body[:action] == action
     end
     expect(post_with_action).to have_been_requested
@@ -98,18 +98,18 @@ describe Minitel::Client, '#notify_user' do
   end
 end
 
-describe Minitel::Client, '#add_followup' do
+RSpec.describe Minitel::Client, '#add_followup' do
   let(:defaults) { {body: 'a body', message_uuid: SecureRandom.uuid} }
   let(:client)   { Minitel::Client.new('https://telex.com') }
 
   before do
     @stub = stub_request(:post, "https://telex.com/producer/messages/#{defaults[:message_uuid]}/followups").
-      to_return(status: 201, body: MultiJson.encode(success: true))
+      to_return(status: 201, body: JSON.generate(success: true))
   end
 
   it 'posts a proper json body to the producer messages endpoint' do
     client.add_followup(defaults)
-    body = MultiJson.encode(body: 'a body')
+    body = JSON.generate(body: 'a body')
     expect(@stub.with(body: body)).to have_been_requested
   end
 

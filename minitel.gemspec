@@ -18,7 +18,7 @@ Gem::Specification.new do |gem|
   gem.license       = "MIT"
 
   gem.add_runtime_dependency 'excon', '> 0.20'
-  gem.add_runtime_dependency 'multi_json', '~> 1.0'
+  gem.add_runtime_dependency 'json'
 
   gem.add_development_dependency 'guard', '~> 2.6'
   gem.add_development_dependency 'guard-rspec', '~> 4.3'
