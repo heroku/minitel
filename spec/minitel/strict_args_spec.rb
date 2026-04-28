@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Minitel::StrictArgs, '.enforce' do
+RSpec.describe Minitel::StrictArgs, '.enforce' do
   describe 'arguments' do
     before do
       @hash = {one: 1, two: 2, uuid: SecureRandom.uuid}
