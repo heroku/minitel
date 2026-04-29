@@ -8,6 +8,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Changed
 
+-
+
+## [0.7.0]
+
+### Changed
+
 - Replace MultiJson with stdlib JSON
 - Bump webmock dependency to ~> 3.26
 - Update CI workflow and test configuration
