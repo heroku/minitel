@@ -7,10 +7,7 @@ A 𝕋𝔼𝕃𝔼𝕏 client
 
 ## Producer Credentials
 
-Get credentials to use by following the instructions here: https://github.com/heroku/engineering-docs/blob/master/components/telex/user-guide.md
-
-## Installing Minitel
-You'll need to add our private gemserver first, see here: <https://gemgate-heroku-internal-gems.herokuapp.com/setup-instructions>
+Get credentials to use by following the instructions here: <https://github.com/heroku/telex/blob/main/docs/user_guide.md>
 
 ## Quick Setup
 This will help you send a notification to just yourself, as a sanity check that everything is set up properly
