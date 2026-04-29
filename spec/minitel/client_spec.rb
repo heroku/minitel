@@ -63,6 +63,24 @@ RSpec.describe Minitel::Client, '#notify_app' do
     result = client.notify_app(defaults)
     expect(result['success']).to eq(true)
   end
+
+  it 'raises on a client error response' do
+    WebMock.stub_request(:post, 'https://telex.example.com/producer/messages').
+      to_return(status: 422, body: JSON.generate(error: 'invalid'))
+    expect { client.notify_app(defaults) }.to raise_error(Minitel::PublishError)
+  end
+
+  it 'raises on a server error response' do
+    WebMock.stub_request(:post, 'https://telex.example.com/producer/messages').
+      to_return(status: 500, body: 'Internal Server Error')
+    expect { client.notify_app(defaults) }.to raise_error(Minitel::PublishError)
+  end
+
+  it 'raises on an unexpected success status code' do
+    WebMock.stub_request(:post, 'https://telex.example.com/producer/messages').
+      to_return(status: 200, body: JSON.generate(success: true))
+    expect { client.notify_app(defaults) }.to raise_error(Minitel::PublishError)
+  end
 end
 
 RSpec.describe Minitel::Client, '#notify_user' do
@@ -110,6 +128,24 @@ RSpec.describe Minitel::Client, '#notify_user' do
     result = client.notify_user(defaults)
     expect(result['success']).to eq(true)
   end
+
+  it 'raises on a client error response' do
+    WebMock.stub_request(:post, 'https://telex.example.com/producer/messages').
+      to_return(status: 422, body: JSON.generate(error: 'invalid'))
+    expect { client.notify_user(defaults) }.to raise_error(Minitel::PublishError)
+  end
+
+  it 'raises on a server error response' do
+    WebMock.stub_request(:post, 'https://telex.example.com/producer/messages').
+      to_return(status: 500, body: 'Internal Server Error')
+    expect { client.notify_user(defaults) }.to raise_error(Minitel::PublishError)
+  end
+
+  it 'raises on an unexpected success status code' do
+    WebMock.stub_request(:post, 'https://telex.example.com/producer/messages').
+      to_return(status: 200, body: JSON.generate(success: true))
+    expect { client.notify_user(defaults) }.to raise_error(Minitel::PublishError)
+  end
 end
 
 RSpec.describe Minitel::Client, '#add_followup' do
@@ -143,5 +179,23 @@ RSpec.describe Minitel::Client, '#add_followup' do
   it 'returns a parsed json response' do
     result = client.add_followup(defaults)
     expect(result['success']).to eq(true)
+  end
+
+  it 'raises on a client error response' do
+    WebMock.stub_request(:post, "https://telex.example.com/producer/messages/#{defaults[:message_uuid]}/followups").
+      to_return(status: 422, body: JSON.generate(error: 'invalid'))
+    expect { client.add_followup(defaults) }.to raise_error(Minitel::PublishError)
+  end
+
+  it 'raises on a server error response' do
+    WebMock.stub_request(:post, "https://telex.example.com/producer/messages/#{defaults[:message_uuid]}/followups").
+      to_return(status: 500, body: 'Internal Server Error')
+    expect { client.add_followup(defaults) }.to raise_error(Minitel::PublishError)
+  end
+
+  it 'raises on an unexpected success status code' do
+    WebMock.stub_request(:post, "https://telex.example.com/producer/messages/#{defaults[:message_uuid]}/followups").
+      to_return(status: 200, body: JSON.generate(success: true))
+    expect { client.add_followup(defaults) }.to raise_error(Minitel::PublishError)
   end
 end

@@ -64,6 +64,9 @@ module Minitel
       request.body = JSON.generate(body)
 
       response = http.request(request)
+      unless response.code == '201'
+        raise Minitel::PublishError, "Expected 201, got #{response.code}"
+      end
       JSON.parse(response.body)
     end
 
