@@ -1,0 +1,28 @@
+Layout/SpaceInsideHashLiteralBraces:
+  Enabled: true
+  EnforcedStyle: space
+  EnforcedStyleForEmptyBraces: no_space
+
+Style/FrozenStringLiteralComment:
+  Enabled: true
+
+Style/TrailingCommaInArguments:
+  Enabled: true
+  EnforcedStyleForMultiline: consistent_comma
+
+Style/TrailingCommaInArrayLiteral:
+  Enabled: true
+  EnforcedStyleForMultiline: consistent_comma
+
+Style/TrailingCommaInHashLiteral:
+  Enabled: true
+  EnforcedStyleForMultiline: consistent_comma
+
+Lint/NumberConversion:
+  Enabled: true
+
+RSpec/ExampleLength:
+  Max: 12
+
+RSpec/MultipleExpectations:
+  Max: 3

@@ -1,0 +1,14 @@
+---
+inherit_from:
+  - .rubocop_todo.yml
+  - .rubocop_standardrb.yml
+  - .rubocop_standardrb_overrides.yml
+
+plugins:
+  - rubocop-performance
+  - rubocop-rspec
+
+AllCops:
+  NewCops: disable
+  Exclude:
+    - vendor/**/*
