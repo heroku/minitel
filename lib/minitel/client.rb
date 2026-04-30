@@ -65,9 +65,19 @@ module Minitel
 
       response = http.request(request)
       unless response.code == '201'
-        raise Minitel::PublishError, "Expected 201, got #{response.code}"
+        raise error_class_for_status(response.code.to_i), "Expected 201, got #{response.code}"
       end
       JSON.parse(response.body)
+    end
+
+    def error_class_for_status(code)
+      case code
+      when 404 then HTTP::NotFound
+      when 429 then HTTP::TooManyRequests
+      when 400..499 then HTTP::ClientError
+      when 500..599 then HTTP::ServerError
+      else HTTP::Error
+      end
     end
 
   end

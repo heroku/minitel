@@ -1,9 +1,6 @@
 require 'securerandom'
 require 'minitel/version'
+require 'minitel/errors'
 require 'minitel/client'
 require 'minitel/strict_args'
-
-module Minitel
-  class PublishError < StandardError; end
-end
 
