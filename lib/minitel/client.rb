@@ -79,6 +79,5 @@ module Minitel
       else HTTP::Error
       end
     end
-
   end
 end
