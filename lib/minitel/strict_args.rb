@@ -1,6 +1,7 @@
 module Minitel
   module StrictArgs
     extend self
+
     def enforce(args, required, allowed = [], uuid_field = nil)
       ensure_strict_args(args.keys, required, allowed)
       ensure_no_nils(args, required)
