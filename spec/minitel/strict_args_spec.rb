@@ -38,4 +38,3 @@ RSpec.describe Minitel::StrictArgs, '.enforce' do
     end
   end
 end
-
