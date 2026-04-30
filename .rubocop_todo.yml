@@ -64,12 +64,6 @@ RSpec/SpecFilePathFormat:
     - '**/spec/routing/**/*'
     - 'spec/minitel/strict_args_spec.rb'
 
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-Style/Encoding:
-  Exclude:
-    - 'minitel.gemspec'
-
 # Offense count: 13
 # This cop supports unsafe autocorrection (--autocorrect-all).
 # Configuration parameters: EnforcedStyle.
