@@ -64,7 +64,7 @@ RSpec.describe Minitel::Client, "#notify_app" do
 
   it "returns a parsed json response" do
     result = client.notify_app(defaults)
-    expect(result["success"]).to eq(true)
+    expect(result["success"]).to be(true)
   end
 
   it "raises ClientError on a client error response" do
@@ -157,7 +157,7 @@ RSpec.describe Minitel::Client, "#notify_user" do
 
   it "returns a parsed json response" do
     result = client.notify_user(defaults)
-    expect(result["success"]).to eq(true)
+    expect(result["success"]).to be(true)
   end
 
   it "raises ClientError on a client error response" do
@@ -221,7 +221,7 @@ RSpec.describe Minitel::Client, "#add_followup" do
 
   it "returns a parsed json response" do
     result = client.add_followup(defaults)
-    expect(result["success"]).to eq(true)
+    expect(result["success"]).to be(true)
   end
 
   it "raises ClientError on a client error response" do
