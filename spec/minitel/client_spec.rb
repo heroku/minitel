@@ -108,7 +108,6 @@ RSpec.describe Minitel::Client, '#notify_app' do
       .to_return(status: 200, body: JSON.generate(success: true))
     expect { client.notify_app(defaults) }.to raise_error(Minitel::HTTP::Error)
   end
-
 end
 
 RSpec.describe Minitel::Client, '#notify_user' do
