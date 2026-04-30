@@ -18,9 +18,4 @@ Gem::Specification.new do |gem|
   gem.license       = "MIT"
 
   gem.add_runtime_dependency 'json'
-
-  gem.add_development_dependency 'guard', '~> 2.6'
-  gem.add_development_dependency 'guard-rspec', '~> 4.3'
-  gem.add_development_dependency 'rspec', '~> 3.0'
-  gem.add_development_dependency 'webmock', '~> 3.26'
 end
