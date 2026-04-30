@@ -29,12 +29,6 @@ Performance/RedundantMerge:
     - 'lib/minitel/client.rb'
     - 'spec/minitel/strict_args_spec.rb'
 
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-Performance/RegexpMatch:
-  Exclude:
-    - 'lib/minitel/strict_args.rb'
-
 # Offense count: 3
 # This cop supports unsafe autocorrection (--autocorrect-all).
 RSpec/BeEq:
