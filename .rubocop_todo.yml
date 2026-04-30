@@ -8,14 +8,6 @@
 
 # Offense count: 2
 # This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: symmetrical, new_line, same_line
-Layout/MultilineMethodCallBraceLayout:
-  Exclude:
-    - 'spec/minitel/client_spec.rb'
-
-# Offense count: 2
-# This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: .
 # SupportedStyles: space, no_space
 Layout/SpaceAroundEqualsInParameterDefault:
