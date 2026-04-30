@@ -3,7 +3,7 @@ require 'spec_helper'
 RSpec.describe Minitel::StrictArgs, '.enforce' do
   describe 'arguments' do
     before do
-      @hash = {one: 1, two: 2, uuid: SecureRandom.uuid}
+      @hash = { one: 1, two: 2, uuid: SecureRandom.uuid }
       @required = [:one, :uuid]
       @optional = [:two]
     end
@@ -33,7 +33,7 @@ RSpec.describe Minitel::StrictArgs, '.enforce' do
     end
 
     it 'fails if there is an extra key' do
-      @hash.merge!( {foo: 3} )
+      @hash.merge!( { foo: 3 } )
       expect { Minitel::StrictArgs.enforce(@hash, @required, @optional, :uuid) }.to raise_error(ArgumentError)
     end
   end

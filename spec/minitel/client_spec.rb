@@ -19,7 +19,7 @@ RSpec.describe Minitel::Client, '#initialize' do
 end
 
 RSpec.describe Minitel::Client, '#notify_app' do
-  let(:defaults) { {title: 'a title', body: 'a body', app_uuid: SecureRandom.uuid} }
+  let(:defaults) { { title: 'a title', body: 'a body', app_uuid: SecureRandom.uuid } }
   let(:client) { Minitel::Client.new('https://EXAMPLE-KEY0-0000-0000-000000000000:EXAMPLE-SEC0-0000-0000-000000000000@telex.example.com') }
 
   before do
@@ -32,7 +32,7 @@ RSpec.describe Minitel::Client, '#notify_app' do
     body = JSON.generate(
       title: 'a title',
       body: 'a body',
-      target: {type: 'app', id: defaults[:app_uuid]}
+      target: { type: 'app', id: defaults[:app_uuid] }
     )
     expect(@stub.with(body: body)).to have_been_requested
   end
@@ -112,7 +112,7 @@ RSpec.describe Minitel::Client, '#notify_app' do
 end
 
 RSpec.describe Minitel::Client, '#notify_user' do
-  let(:defaults) { {title: 'a title', body: 'a body', user_uuid: SecureRandom.uuid} }
+  let(:defaults) { { title: 'a title', body: 'a body', user_uuid: SecureRandom.uuid } }
   let(:client) { Minitel::Client.new('https://EXAMPLE-KEY0-0000-0000-000000000000:EXAMPLE-SEC0-0000-0000-000000000000@telex.example.com') }
 
   before do
@@ -125,7 +125,7 @@ RSpec.describe Minitel::Client, '#notify_user' do
     body = JSON.generate(
       title: 'a title',
       body: 'a body',
-      target: {type: 'user', id: defaults[:user_uuid]}
+      target: { type: 'user', id: defaults[:user_uuid] }
     )
     expect(@stub.with(body: body)).to have_been_requested
   end
@@ -190,7 +190,7 @@ RSpec.describe Minitel::Client, '#notify_user' do
 end
 
 RSpec.describe Minitel::Client, '#add_followup' do
-  let(:defaults) { {body: 'a body', message_uuid: SecureRandom.uuid} }
+  let(:defaults) { { body: 'a body', message_uuid: SecureRandom.uuid } }
   let(:client) { Minitel::Client.new('https://EXAMPLE-KEY0-0000-0000-000000000000:EXAMPLE-SEC0-0000-0000-000000000000@telex.example.com') }
 
   before do
