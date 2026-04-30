@@ -11,32 +11,32 @@ RSpec.describe Minitel::StrictArgs, ".enforce" do
     end
 
     it "works when all listed args are present" do
-      expect { Minitel::StrictArgs.enforce(@hash, @required, @optional, :uuid) }.not_to raise_error
+      expect { described_class.enforce(@hash, @required, @optional, :uuid) }.not_to raise_error
     end
 
     it "works when optional args are omitted" do
       @hash.delete(:two)
-      expect { Minitel::StrictArgs.enforce(@hash, @required, @optional, :uuid) }.not_to raise_error
+      expect { described_class.enforce(@hash, @required, @optional, :uuid) }.not_to raise_error
     end
 
     it "fails when a key is missing from the arg hash" do
       @hash.delete(:one)
-      expect { Minitel::StrictArgs.enforce(@hash, @required, @optional, :uuid) }.to raise_error(ArgumentError)
+      expect { described_class.enforce(@hash, @required, @optional, :uuid) }.to raise_error(ArgumentError)
     end
 
     it "fails when a key is nil" do
       @hash[:one] = nil
-      expect { Minitel::StrictArgs.enforce(@hash, @required, @optional, :uuid) }.to raise_error(ArgumentError)
+      expect { described_class.enforce(@hash, @required, @optional, :uuid) }.to raise_error(ArgumentError)
     end
 
     it "fails if the uuid column uuid is not a uuid" do
       @hash[:uuid] = "not a uuid"
-      expect { Minitel::StrictArgs.enforce(@hash, @required, @optional, :uuid) }.to raise_error(ArgumentError)
+      expect { described_class.enforce(@hash, @required, @optional, :uuid) }.to raise_error(ArgumentError)
     end
 
     it "fails if there is an extra key" do
       @hash[:foo] = 3
-      expect { Minitel::StrictArgs.enforce(@hash, @required, @optional, :uuid) }.to raise_error(ArgumentError)
+      expect { described_class.enforce(@hash, @required, @optional, :uuid) }.to raise_error(ArgumentError)
     end
   end
 end
