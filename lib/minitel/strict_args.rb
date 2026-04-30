@@ -12,11 +12,11 @@ module Minitel
     def ensure_strict_args(keys, required, allowed)
       missing = required - keys
       unless missing.empty?
-        raise ArgumentError, "missing keywords: #{missing.join(', ')}"
+        raise ArgumentError, "missing keywords: #{missing.join(", ")}"
       end
       unknown = keys - (required + allowed)
       unless unknown.empty?
-        raise ArgumentError, "extra keywords: #{unknown.join(', ')}"
+        raise ArgumentError, "extra keywords: #{unknown.join(", ")}"
       end
     end
 
