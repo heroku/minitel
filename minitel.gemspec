@@ -4,8 +4,8 @@ Gem::Specification.new do |gem|
   gem.name = "minitel"
   gem.authors = ["Will Leinweber"]
   gem.email = ["will@bitfission.com"]
-  gem.description = %q{𝕋𝔼𝕃𝔼𝕏 client}
-  gem.summary = %q{𝕋𝔼𝕃𝔼𝕏 client: see https://github.com/heroku/telex}
+  gem.description = %q(𝕋𝔼𝕃𝔼𝕏 client)
+  gem.summary = %q(𝕋𝔼𝕃𝔼𝕏 client: see https://github.com/heroku/telex)
   gem.homepage = "https://github.com/heroku/minitel"
 
   gem.files = `git ls-files`.split($\)
