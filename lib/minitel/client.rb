@@ -19,7 +19,7 @@ module Minitel
 
     def notify_app(args)
       StrictArgs.enforce(args, [:app_uuid, :body, :title], [:action], :app_uuid)
-      if action = args[:action]
+      if (action = args[:action])
         StrictArgs.enforce(action, [:label, :url])
       end
       post_message("app", args[:app_uuid], args[:title], args[:body], action)
@@ -27,7 +27,7 @@ module Minitel
 
     def notify_user(args)
       StrictArgs.enforce(args, [:user_uuid, :body, :title], [:action], :user_uuid)
-      if action = args[:action]
+      if (action = args[:action])
         StrictArgs.enforce(action, [:label, :url])
       end
       post_message("user", args[:user_uuid], args[:title], args[:body], action)
