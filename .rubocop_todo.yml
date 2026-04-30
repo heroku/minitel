@@ -85,11 +85,3 @@ Style/FrozenStringLiteralComment:
     - 'spec/minitel/strict_args_spec.rb'
     - 'spec/spec_helper.rb'
 
-# Offense count: 4
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyleForMultiline.
-# SupportedStylesForMultiline: comma, consistent_comma, diff_comma, no_comma
-Style/TrailingCommaInHashLiteral:
-  Exclude:
-    - 'lib/minitel/client.rb'
-    - 'spec/minitel/client_spec.rb'

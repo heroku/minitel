@@ -46,7 +46,7 @@ RSpec.describe Minitel::Client, "#notify_app" do
     client.notify_app(defaults)
     expect(@stub.with(headers: {
       "Content-Type" => "application/json",
-      "User-Agent" => "minitel/#{Minitel::VERSION}"
+      "User-Agent" => "minitel/#{Minitel::VERSION}",
     })).to have_been_requested
   end
 
@@ -139,7 +139,7 @@ RSpec.describe Minitel::Client, "#notify_user" do
     client.notify_user(defaults)
     expect(@stub.with(headers: {
       "Content-Type" => "application/json",
-      "User-Agent" => "minitel/#{Minitel::VERSION}"
+      "User-Agent" => "minitel/#{Minitel::VERSION}",
     })).to have_been_requested
   end
 
@@ -213,7 +213,7 @@ RSpec.describe Minitel::Client, "#add_followup" do
     client.add_followup(defaults)
     expect(@stub.with(headers: {
       "Content-Type" => "application/json",
-      "User-Agent" => "minitel/#{Minitel::VERSION}"
+      "User-Agent" => "minitel/#{Minitel::VERSION}",
     })).to have_been_requested
   end
 

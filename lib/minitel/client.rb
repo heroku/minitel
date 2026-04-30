@@ -43,7 +43,7 @@ module Minitel
       message = {
         title: title,
         body: body,
-        target: { type: type, id: id }
+        target: { type: type, id: id },
       }
 
       if action
