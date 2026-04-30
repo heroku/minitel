@@ -2,8 +2,8 @@
 
 require "spec_helper"
 
-RSpec.describe Minitel::StrictArgs, ".enforce" do
-  describe "arguments" do
+RSpec.describe Minitel::StrictArgs do
+  describe ".enforce" do
     let(:input) { { one: 1, two: 2, uuid: SecureRandom.uuid } }
     let(:required_keys) { [:one, :uuid] }
     let(:optional_keys) { [:two] }
