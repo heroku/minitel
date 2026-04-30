@@ -49,7 +49,7 @@ module Minitel
       }
 
       if action
-        message.merge!(action: action)
+        message[:action] = action
       end
 
       post("/producer/messages", message)
