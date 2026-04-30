@@ -67,7 +67,7 @@ module Minitel
 
       response = http.request(request)
       unless response.code == "201"
-        raise error_class_for_status(response.code.to_i), "Expected 201, got #{response.code}"
+        raise error_class_for_status(Integer(response.code, 10)), "Expected 201, got #{response.code}"
       end
       JSON.parse(response.body)
     end
