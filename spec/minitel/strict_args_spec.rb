@@ -9,12 +9,12 @@ RSpec.describe Minitel::StrictArgs, '.enforce' do
     end
 
     it 'works when all listed args are present' do
-      expect { Minitel::StrictArgs.enforce(@hash, @required, @optional, :uuid)  }.to_not raise_error
+      expect { Minitel::StrictArgs.enforce(@hash, @required, @optional, :uuid) }.to_not raise_error
     end
 
     it 'works when optional args are omitted' do
       @hash.delete(:two)
-      expect { Minitel::StrictArgs.enforce(@hash, @required, @optional, :uuid)  }.to_not raise_error
+      expect { Minitel::StrictArgs.enforce(@hash, @required, @optional, :uuid) }.to_not raise_error
     end
 
     it "fails when a key is missing from the arg hash" do

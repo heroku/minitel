@@ -8,19 +8,19 @@ RSpec.describe Minitel::Client, '#initialize' do
 
   it 'uses the given url and credentials' do
     expect(@client.uri.host).to eq('telex.example.com')
-    expect(@client.user).to     eq('EXAMPLE-KEY0-0000-0000-000000000000')
+    expect(@client.user).to eq('EXAMPLE-KEY0-0000-0000-000000000000')
     expect(@client.password).to eq('EXAMPLE-SEC0-0000-0000-000000000000')
   end
 
   it 'requires an https url' do
-    expect{ Minitel::Client.new('http://user:pass@what.com')  }.to     raise_error(ArgumentError)
+    expect{ Minitel::Client.new('http://user:pass@what.com') }.to raise_error(ArgumentError)
     expect{ Minitel::Client.new('https://user:pass@what.com') }.to_not raise_error
   end
 end
 
 RSpec.describe Minitel::Client, '#notify_app' do
   let(:defaults) { {title: 'a title', body: 'a body', app_uuid: SecureRandom.uuid} }
-  let(:client)   { Minitel::Client.new('https://EXAMPLE-KEY0-0000-0000-000000000000:EXAMPLE-SEC0-0000-0000-000000000000@telex.example.com') }
+  let(:client) { Minitel::Client.new('https://EXAMPLE-KEY0-0000-0000-000000000000:EXAMPLE-SEC0-0000-0000-000000000000@telex.example.com') }
 
   before do
     @stub = WebMock.stub_request(:post, 'https://telex.example.com/producer/messages')
@@ -112,7 +112,7 @@ end
 
 RSpec.describe Minitel::Client, '#notify_user' do
   let(:defaults) { {title: 'a title', body: 'a body', user_uuid: SecureRandom.uuid} }
-  let(:client)   { Minitel::Client.new('https://EXAMPLE-KEY0-0000-0000-000000000000:EXAMPLE-SEC0-0000-0000-000000000000@telex.example.com') }
+  let(:client) { Minitel::Client.new('https://EXAMPLE-KEY0-0000-0000-000000000000:EXAMPLE-SEC0-0000-0000-000000000000@telex.example.com') }
 
   before do
     @stub = WebMock.stub_request(:post, 'https://telex.example.com/producer/messages')
@@ -189,7 +189,7 @@ end
 
 RSpec.describe Minitel::Client, '#add_followup' do
   let(:defaults) { {body: 'a body', message_uuid: SecureRandom.uuid} }
-  let(:client)   { Minitel::Client.new('https://EXAMPLE-KEY0-0000-0000-000000000000:EXAMPLE-SEC0-0000-0000-000000000000@telex.example.com') }
+  let(:client) { Minitel::Client.new('https://EXAMPLE-KEY0-0000-0000-000000000000:EXAMPLE-SEC0-0000-0000-000000000000@telex.example.com') }
 
   before do
     @stub = WebMock.stub_request(:post, "https://telex.example.com/producer/messages/#{defaults[:message_uuid]}/followups")
