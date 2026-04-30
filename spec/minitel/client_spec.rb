@@ -32,7 +32,7 @@ RSpec.describe Minitel::Client, "#notify_app" do
     body = JSON.generate(
       title: "a title",
       body: "a body",
-      target: { type: "app", id: defaults[:app_uuid] }
+      target: { type: "app", id: defaults[:app_uuid] },
     )
     expect(@stub.with(body: body)).to have_been_requested
   end
@@ -125,7 +125,7 @@ RSpec.describe Minitel::Client, "#notify_user" do
     body = JSON.generate(
       title: "a title",
       body: "a body",
-      target: { type: "user", id: defaults[:user_uuid] }
+      target: { type: "user", id: defaults[:user_uuid] },
     )
     expect(@stub.with(body: body)).to have_been_requested
   end
