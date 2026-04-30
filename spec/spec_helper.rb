@@ -1,7 +1,7 @@
-require 'rubygems'
-require 'rspec'
-require 'webmock/rspec'
-require 'minitel'
+require "rubygems"
+require "rspec"
+require "webmock/rspec"
+require "minitel"
 
 RSpec.configure do |config|
   config.order = :random

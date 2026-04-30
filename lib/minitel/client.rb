@@ -1,6 +1,6 @@
-require 'json'
-require 'net/http'
-require 'uri'
+require "json"
+require "net/http"
+require "uri"
 
 module Minitel
   class Client
@@ -20,7 +20,7 @@ module Minitel
       if action = args[:action]
         StrictArgs.enforce(action, [:label, :url])
       end
-      post_message('app', args[:app_uuid], args[:title], args[:body], action)
+      post_message("app", args[:app_uuid], args[:title], args[:body], action)
     end
 
     def notify_user(args)
@@ -28,7 +28,7 @@ module Minitel
       if action = args[:action]
         StrictArgs.enforce(action, [:label, :url])
       end
-      post_message('user', args[:user_uuid], args[:title], args[:body], action)
+      post_message("user", args[:user_uuid], args[:title], args[:body], action)
     end
 
     def add_followup(args)
@@ -59,12 +59,12 @@ module Minitel
 
       request = Net::HTTP::Post.new(path)
       request.basic_auth(user, password)
-      request['Content-Type'] = 'application/json'
-      request['User-Agent'] = "minitel/#{Minitel::VERSION}"
+      request["Content-Type"] = "application/json"
+      request["User-Agent"] = "minitel/#{Minitel::VERSION}"
       request.body = JSON.generate(body)
 
       response = http.request(request)
-      unless response.code == '201'
+      unless response.code == "201"
         raise error_class_for_status(response.code.to_i), "Expected 201, got #{response.code}"
       end
       JSON.parse(response.body)

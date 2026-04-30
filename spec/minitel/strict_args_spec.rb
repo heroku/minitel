@@ -1,18 +1,18 @@
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe Minitel::StrictArgs, '.enforce' do
-  describe 'arguments' do
+RSpec.describe Minitel::StrictArgs, ".enforce" do
+  describe "arguments" do
     before do
       @hash = { one: 1, two: 2, uuid: SecureRandom.uuid }
       @required = [:one, :uuid]
       @optional = [:two]
     end
 
-    it 'works when all listed args are present' do
+    it "works when all listed args are present" do
       expect { Minitel::StrictArgs.enforce(@hash, @required, @optional, :uuid) }.not_to raise_error
     end
 
-    it 'works when optional args are omitted' do
+    it "works when optional args are omitted" do
       @hash.delete(:two)
       expect { Minitel::StrictArgs.enforce(@hash, @required, @optional, :uuid) }.not_to raise_error
     end
@@ -27,12 +27,12 @@ RSpec.describe Minitel::StrictArgs, '.enforce' do
       expect { Minitel::StrictArgs.enforce(@hash, @required, @optional, :uuid) }.to raise_error(ArgumentError)
     end
 
-    it 'fails if the uuid column uuid is not a uuid' do
+    it "fails if the uuid column uuid is not a uuid" do
       @hash[:uuid] = "not a uuid"
       expect { Minitel::StrictArgs.enforce(@hash, @required, @optional, :uuid) }.to raise_error(ArgumentError)
     end
 
-    it 'fails if there is an extra key' do
+    it "fails if there is an extra key" do
       @hash.merge!({ foo: 3 })
       expect { Minitel::StrictArgs.enforce(@hash, @required, @optional, :uuid) }.to raise_error(ArgumentError)
     end
