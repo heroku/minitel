@@ -22,7 +22,7 @@ module Minitel
 
     def ensure_no_nils(args, keys)
       keys.each do |key|
-       raise ArgumentError, "keyword #{key} is nil" unless args[key]
+        raise ArgumentError, "keyword #{key} is nil" unless args[key]
       end
     end
 
