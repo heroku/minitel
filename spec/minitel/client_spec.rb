@@ -84,7 +84,7 @@ RSpec.describe Minitel::Client, '#notify_app' do
     begin
       begin
         client.notify_app(defaults)
-      rescue StandardError => e
+      rescue => e
         raise wrapper_error, e.message
       end
     rescue wrapper_error => e
