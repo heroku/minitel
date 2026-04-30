@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Minitel
   module HTTP
     class Error < StandardError; end
