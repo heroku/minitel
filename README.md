@@ -1,4 +1,5 @@
 # 𝕄𝕀ℕ𝕀𝕋𝔼𝕃
+
 A 𝕋𝔼𝕃𝔼𝕏 client
 
 [![Gem Version](https://badge.fury.io/rb/minitel.svg)](http://badge.fury.io/rb/minitel)
@@ -6,26 +7,25 @@ A 𝕋𝔼𝕃𝔼𝕏 client
 
 ## Producer Credentials
 
-Get credentials to use by following the instructions here: https://github.com/heroku/engineering-docs/blob/master/components/telex/user-guide.md
-
-## Installing Minitel
-You'll need to add our private gemserver first, see here: <https://gemgate-heroku-internal-gems.herokuapp.com/setup-instructions>
+Get credentials to use by following the instructions here: <https://github.com/heroku/telex/blob/main/docs/user_guide.md>
 
 ## Quick Setup
+
 This will help you send a notification to just yourself, as a sanity check that everything is set up properly
 
 Before you do this:
+
 - Get your producer credentials (above)
 - get `minitel` (above) and `dotenv` installed locally
 - Grab your user account id, for example by doing: `heroku api get /account | jq '.id' -r`
 
-```
+```shell
 # .env
 TELEX_URL = 'https://user:pass@telex.heroku.com'
 MY_USER_ID = '123'
 ```
 
-```
+```ruby
 # minitel-testing.rb or irb
 require 'dotenv/load'
 require 'minitel'
@@ -37,6 +37,7 @@ puts "message " + message['id'] + " sent"
 ```
 
 Once you run this, you should receive both:
+
 - receive an email (eventually, depending on the backlog)
 - see this in Dashboard's Notification Center
 
@@ -65,3 +66,30 @@ client.notify_user(user_uuid: '...',
 # add follow-up to a previous notification
 client.add_followup(message_uuid: '...', body: 'here are even more details')
 ```
+
+## Releasing
+
+1. **Bump the version** in `lib/minitel/version.rb`
+
+2. **Update `CHANGELOG.md`** — move entries from `[Unreleased]` into a new versioned section and update the comparison links at the bottom
+
+3. **Commit the changes**
+
+   ```shell
+   git add lib/minitel/version.rb CHANGELOG.md
+   git commit -m "version -> x.y.z"
+   ```
+
+4. **Create and push a git tag**
+
+   ```shell
+   git tag vx.y.z
+   git push origin main --tags
+   ```
+
+5. **Build and push the gem to RubyGems.org**
+
+   ```shell
+   gem build
+   gem push minitel-x.y.z.gem
+   ```

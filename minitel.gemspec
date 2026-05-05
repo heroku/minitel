@@ -17,5 +17,7 @@ Gem::Specification.new do |gem|
   gem.platform = Gem::Platform::RUBY
   gem.license = "MIT"
 
+  gem.required_ruby_version = ">= 3.2"
+
   gem.add_runtime_dependency "json"
 end
